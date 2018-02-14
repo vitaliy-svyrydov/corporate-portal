@@ -1,0 +1,5 @@
+version: '2'
+services:
+    corporate_portal_web:
+        ports:
+            - "3333:80"

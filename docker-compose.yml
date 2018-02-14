@@ -1,0 +1,43 @@
+version: '2'
+services:
+    corporate_portal_web:
+        container_name: corporate-portal-web-container
+        build:
+            context: ./data/docker/web
+            dockerfile: dev/Dockerfile
+            args:
+                HOST_UID: ${HOST_UID}
+        restart: always
+        volumes:
+            - .:/var/www/html
+        links:
+            - corporate_portal_db
+            - corporate_portal_redis
+        depends_on:
+            - corporate_portal_db
+            - corporate_portal_redis
+
+    corporate_portal_db:
+        container_name: corporate-portal-db-container
+        build:
+            context: ./data/docker/db
+            args:
+                HOST_UID: ${HOST_UID}
+        restart: always
+        volumes:
+            - ./data/volumes/db:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: corporate-portal
+            MYSQL_USER: docker
+            MYSQL_PASSWORD: secret
+
+    corporate_portal_redis:
+        container_name: corporate-portal-redis-container
+        restart: always
+        build:
+            context: ./data/docker/redis
+            args:
+                HOST_UID: ${HOST_UID}
+        volumes:
+            - ./data/volumes/redis:/data
