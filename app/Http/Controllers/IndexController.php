@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\ArticleRepository;
+use App\Repositories\ArticlesRepository;
 use App\Repositories\PortfoliosRepository;
 use App\Repositories\SlidersRepository;
 
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Config;
 class IndexController extends SiteController
 {
 
-    public function __construct(SlidersRepository $s_rep, PortfoliosRepository $p_rep, ArticleRepository $a_rep)
+    public function __construct(SlidersRepository $s_rep, PortfoliosRepository $p_rep, ArticlesRepository $a_rep)
     {
         parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu));
 
@@ -41,7 +41,7 @@ class IndexController extends SiteController
 
         $this->keywords = "Home Page";
         $this->meta_desc = "Home Page";
-        $this->title = "Home Page";
+        $this->title = "Corporate Portal";
 
         $articles = $this->getArticles();
         $this->contentRightBar = view(env('THEME').'.sidebar')->with('articles', $articles)->render();

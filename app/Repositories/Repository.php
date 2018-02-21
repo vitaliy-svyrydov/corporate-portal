@@ -4,17 +4,23 @@ namespace App\Repositories;
 
 
 
+use Illuminate\Support\Facades\Config;
+
 abstract class Repository
 {
     protected $model = FALSE;
 
-    public function get($select = '*', $take = FALSE)
+    public function get($select = '*', $take = FALSE, $pagination = FALSE)
     {
         $builder = $this->model->select($select);
 
         if($take)
         {
             $builder->take($take);
+        }
+        if($pagination)
+        {
+            $this->check($builder->paginate(Config::get('settings.paginate')));
         }
 
         return $this->check($builder->get());
@@ -35,6 +41,7 @@ abstract class Repository
 
         return $result;
     }
+
 
 
 }

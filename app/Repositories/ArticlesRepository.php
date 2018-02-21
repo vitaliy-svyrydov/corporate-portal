@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Article;
 
 
-class ArticleRepository extends Repository
+class ArticlesRepository extends Repository
 {
     public function __construct(Article $article)
     {
