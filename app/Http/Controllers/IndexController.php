@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\ArticleRepository;
 use App\Repositories\PortfoliosRepository;
 use App\Repositories\SlidersRepository;
 
@@ -11,12 +12,13 @@ use Illuminate\Support\Facades\Config;
 class IndexController extends SiteController
 {
 
-    public function __construct(SlidersRepository $s_rep, PortfoliosRepository $p_rep)
+    public function __construct(SlidersRepository $s_rep, PortfoliosRepository $p_rep, ArticleRepository $a_rep)
     {
         parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu));
 
         $this->p_rep = $p_rep;
         $this->s_rep = $s_rep;
+        $this->a_rep = $a_rep;
 
         $this->template = env('THEME').'.index';
         $this->bar = 'right';
@@ -36,6 +38,10 @@ class IndexController extends SiteController
         $sliderItems = $this->getSliders();
         $sliders = view(env('THEME').'.slider')->with('sliders', $sliderItems)->render();
         $this->vars = array_add($this->vars,'sliders', $sliders);
+
+        $articles = $this->getArticles();
+        $this->contentRightBar = view(env('THEME').'.sidebar')->with('articles', $articles)->render();
+        $this->vars = array_add($this->vars,'content', $content);
 
         return $this->renderOutput();
     }
@@ -60,6 +66,13 @@ class IndexController extends SiteController
         });
         return $sliders;
     }
+
+    public function getArticles()
+    {
+        $articles = $this->a_rep->get(['title', 'img', 'created_at', 'alias'], Config::get('home_articles_count.settings'));
+        return $articles;
+    }
+
 
     /**
      * Show the form for creating a new resource.

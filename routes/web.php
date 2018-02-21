@@ -19,10 +19,17 @@ Route::resource('/', 'IndexController',[
 
 Route::resource('portfolios', 'PortfolioController', [
                                                         'parameters' => [
-                                                            'portfolios' => 'alias'
+                                                        'portfolios' => 'alias'
                                                         ]
 
                                                         ]);
+Route::resource('article', 'ArticlesController', [
+                                                    'parameters' => [
+                                                    'articles' => 'alias'
+                                                    ]
+
+]);
+
 
 Auth::routes();
 
