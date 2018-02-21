@@ -19,10 +19,17 @@ Route::resource('/', 'IndexController',[
 
 Route::resource('portfolios', 'PortfolioController', [
                                                         'parameters' => [
-                                                            'portfolios' => 'alias'
+                                                        'portfolios' => 'alias'
                                                         ]
 
                                                         ]);
+Route::resource('articles', 'ArticlesController', [
+                                                    'parameters' => [
+                                                    'articles' => 'alias'
+                                                    ]]);
+Route::get('articles/cat/{cat_alias?}', ['user' => 'ArticlesController@index','as'=>'articlesCat']);
+
+
 
 Auth::routes();
 
