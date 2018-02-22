@@ -10,7 +10,7 @@ class Comment extends Model
     {
         return $this->belongsTo('App\Article');
     }
-    public function comments()
+    public function user()
     {
         return $this->belongsTo('App\User');
     }
