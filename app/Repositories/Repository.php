@@ -2,46 +2,51 @@
 
 namespace App\Repositories;
 
+use Config;
 
+abstract class Repository {
 
-use Illuminate\Support\Facades\Config;
-
-abstract class Repository
-{
     protected $model = FALSE;
 
-    public function get($select = '*', $take = FALSE, $pagination = FALSE)
-    {
+
+    public function get($select = '*',$take = FALSE,$pagination = FALSE) {
+
         $builder = $this->model->select($select);
 
-        if($take)
-        {
+        if($take) {
             $builder->take($take);
         }
-        if($pagination)
-        {
-            $this->check($builder->paginate(Config::get('settings.paginate')));
+
+
+        if($pagination) {
+            return $this->check($builder->paginate(Config::get('settings.paginate')));
         }
 
         return $this->check($builder->get());
     }
 
-    protected function check($result)
-    {
-        if($result->isEmpty()){
+    protected function check($result) {
+
+        if($result->isEmpty()) {
             return FALSE;
         }
 
-        $result->transform(function ($item, $key)
-        {
-            if(is_string($item->img) && is_object(json_decode($item->img)) && json_last_error() == JSON_ERROR_NONE)
-            $item->img = json_decode($item->img);
+        $result->transform(function($item,$key) {
+
+            if(is_string($item->img) && is_object(json_decode($item->img)) && (json_last_error() == JSON_ERROR_NONE)) {
+                $item->img = json_decode($item->img);
+            }
+
+
+
             return $item;
+
         });
 
         return $result;
+
     }
 
-
-
 }
+
+?>

@@ -25,8 +25,8 @@
                 </div>
                 <!-- post content -->
                 <div class="the-content group">
-                    <p>{{ $article->desc }}</p>
-                    <p><a href="{{ route('articles.show',['alias'=>$article->alias]) }}" class="btn   btn-beetle-bus-goes-jamba-juice-4 btn-more-link">> Read more</a></p>
+                    {!! $article->desc !!}
+                    <p><a href="{{ route('articles.show',['alias' => $article->alias]) }}" class="btn   btn-beetle-bus-goes-jamba-juice-4 btn-more-link">> {{ Lang::get('ru.read_more') }}</a></p>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -34,6 +34,34 @@
         @endforeach
 
 
-        <div class="general-pagination group"><a href="#" class="selected">1</a><a href="#">2</a><a href="#">&rsaquo;</a></div>
+
+        <div class="general-pagination group">
+
+            @if($articles->lastPage() > 1)
+
+                @if($articles->currentPage() !== 1)
+                    <a href="{{ $articles->url(($articles->currentPage() - 1)) }}">{{ Lang::get('pagination.previous') }}</a>
+                @endif
+
+                @for($i = 1; $i <= $articles->lastPage(); $i++)
+                    @if($articles->currentPage() == $i)
+                        <a class="selected disabled">{{ $i }}</a>
+                    @else
+                        <a href="{{ $articles->url($i) }}">{{ $i }}</a>
+                    @endif
+                @endfor
+
+                @if($articles->currentPage() !== $articles->lastPage())
+                    <a href="{{ $articles->url(($articles->currentPage() + 1)) }}">{{ Lang::get('pagination.next') }}</a>
+                @endif
+
+
+            @endif
+
+        </div>
+    @else
+
+        {!! Lang::get('ru.articles_no') !!}
+
     @endif
 </div>
