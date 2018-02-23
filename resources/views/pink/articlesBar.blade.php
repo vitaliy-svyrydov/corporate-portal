@@ -1,5 +1,3 @@
-
-
 <div class="widget-first widget recent-posts">
     <h3>{{ Lang::get('ru.latest_projects') }}</h3>
     <div class="recent-post group">

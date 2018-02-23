@@ -3,5 +3,5 @@
         <ul id="nav" class="menu">
             @include(env('THEME').'.customMenuItems', ['items' => $menu->roots()])
         </ul>
-    <div>
+    </div>
 @endif
