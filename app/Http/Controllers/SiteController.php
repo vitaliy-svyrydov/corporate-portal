@@ -42,7 +42,7 @@ class SiteController extends Controller
             $rightBar = view(env('THEME').'.rightBar')->with('contentRightBar', $this->contentRightBar)->render();
             $this->vars = array_add($this->vars,'rightBar', $rightBar);
         }
-        $this->vars = array_add($this->vars,'sidebar', $this->bar);
+        $this->vars = array_add($this->vars,'bar', $this->bar);
 
         $this->vars = array_add($this->vars,'keywords', $this->keywords);
         $this->vars = array_add($this->vars,'meta_desc', $this->meta_desc);

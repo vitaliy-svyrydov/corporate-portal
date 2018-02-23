@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PortfolioController extends Controller
+class ContactsController extends eController
 {
     public function index()
     {
-        echo 'PORTFOLIO';
+        echo 'CONTACTS';
     }
 }

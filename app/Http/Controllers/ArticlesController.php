@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 
 use App\Repositories\PortfoliosRepository;
 use App\Repositories\ArticlesRepository;
 use App\Repositories\CommentsRepository;
+use App\Category;
 
 use App\Http\Requests;
 
@@ -27,12 +29,13 @@ class ArticlesController extends SiteController
 
     }
 
-    public function index()
+    public function index($cat_alias = FALSE)
     {
-        //
+        $this->title = 'Блог';
+        $this->keywords = 'ключ';
+        $this->meta_desc = 'мета';
 
-        $articles = $this->getArticles();
-
+        $articles = $this->getArticles($cat_alias);
         $content = view(env('THEME').'.articles_content')->with('articles',$articles)->render();
         $this->vars = array_add($this->vars,'content',$content);
 
@@ -64,7 +67,16 @@ class ArticlesController extends SiteController
 
     public function getArticles($alias = FALSE) {
 
-        $articles = $this->a_rep->get(['id','title','alias','created_at','img','desc','user_id','category_id'],FALSE,TRUE);
+        $where = FALSE;
+
+        if($alias) {
+            // WHERE `alias` = $alias
+            $id = Category::select('id')->where('alias',$alias)->first()->id;
+            //WHERE `category_id` = $id
+            $where = ['category_id',$id];
+        }
+
+        $articles = $this->a_rep->get(['id','title','alias','created_at','img','desc','user_id','category_id'],FALSE,TRUE,$where);
 
         if($articles) {
             $articles->load('user','category','comments');
@@ -72,6 +84,32 @@ class ArticlesController extends SiteController
 
         return $articles;
 
+    }
+
+    public function show($alias = FALSE) {
+
+        $article = $this->a_rep->one($alias,['comments' => TRUE]);
+
+        if($article) {
+            $article->img = json_decode($article->img);
+        }
+
+        $this->title = $article->title;
+        $this->keywords = $article->keywords;
+        $this->meta_desc = $article->meta_desc;
+
+        $content = view(env('THEME').'.article_content')->with('article',$article)->render();
+        $this->vars = array_add($this->vars,'content',$content);
+
+
+        $comments = $this->getComments(config('settings.recent_comments'));
+        $portfolios = $this->getPortfolios(config('settings.recent_portfolios'));
+
+
+        $this->contentRightBar = view(env('THEME').'.articlesBar')->with(['comments' => $comments,'portfolios' => $portfolios]);
+
+
+        return $this->renderOutput();
     }
 
 }

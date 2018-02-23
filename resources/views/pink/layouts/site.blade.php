@@ -25,8 +25,10 @@
     <!-- this line will appear only if the website is visited with an iPad -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.2, user-scalable=yes" />
 
-    <meta name="description" content="{{ isset($meta_desc) ? $meta_desc : '' }}" />
-    <meta name="keywords" content="{{ isset($keywords) ? $keywords : '' }}" />
+    <meta name="description" content="{{ (isset($meta_desc)) ? $meta_desc : ''}}">
+    <meta name="keywords" content="{{ (isset($keywords)) ? $keywords : ''}}">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title or 'Pink' }}</title>
 
@@ -80,6 +82,8 @@
     <script type="text/javascript" src="{{ asset(env('THEME')) }}/js/jquery.colorbox-min.js"></script> <!-- nav -->
     <script type="text/javascript" src="{{ asset(env('THEME')) }}/js/jquery.tweetable.js"></script>
 
+    <script type="text/javascript" src="{{ asset(env('THEME')) }}/js/myscripts.js"></script>
+
 </head>
 <!-- END HEAD -->
 
@@ -114,8 +118,8 @@
                 <hr />
 
                 <!-- START MAIN NAVIGATION -->
-                @yield('navigation')
-                <!-- END MAIN NAVIGATION -->
+            @yield('navigation')
+            <!-- END MAIN NAVIGATION -->
                 <div id="header-shadow"></div>
                 <div id="menu-shadow"></div>
             </div>
@@ -124,17 +128,20 @@
         <!-- END HEADER -->
 
         <!-- START SLIDER -->
+
         @yield('slider')
-        <!-- END SLIDER -->
+
+        <div class="wrap_result"></div>
+
         <!-- START PRIMARY -->
-        <div id="primary" class="sidebar-{{ isset($sidebar) ? $sidebar : 'no'}}">
+        <div id="primary" class="sidebar-{{ isset($bar) ? $bar : 'no'}}">
             <div class="inner group">
                 <!-- START CONTENT -->
-                @yield('content')
-                <!-- END CONTENT -->
+            @yield('content')
+            <!-- END CONTENT -->
                 <!-- START SIDEBAR -->
-                @yield('sidebar')
-                <!-- END SIDEBAR -->
+            @yield('bar')
+            <!-- END SIDEBAR -->
                 <!-- START EXTRA CONTENT -->
                 <!-- END EXTRA CONTENT -->
             </div>
@@ -142,8 +149,10 @@
         <!-- END PRIMARY -->
 
         <!-- START COPYRIGHT -->
-        @yield('footer')
-        <!-- END COPYRIGHT -->
+
+    @yield('footer')
+
+    <!-- END COPYRIGHT -->
     </div>
     <!-- END WRAPPER -->
 </div>
