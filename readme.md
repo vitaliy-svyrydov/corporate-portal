@@ -21,7 +21,7 @@ You can install the application using the following commands:
 
 ```sh
 git clone https://github.com/vitaliy-svyrydov/corporate-portal.git
-cd wep-system
+cd corporate-portal
 cp .env.example .env
 cp docker-compose.override.yml{.dist,}
 docker-compose up -d --build
@@ -36,7 +36,7 @@ done, you need to install vendors as follows:
 
 ```sh
 docker exec -it corporate-portal-container bash
-composer install // for Production environment: composer install --no-dev --optimize-autoloader
+composer install
 chown -R www-data:www-data .
 ```
 
