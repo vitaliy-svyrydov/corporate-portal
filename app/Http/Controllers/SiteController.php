@@ -42,7 +42,12 @@ class SiteController extends Controller
             $rightBar = view(env('THEME').'.rightBar')->with('contentRightBar', $this->contentRightBar)->render();
             $this->vars = array_add($this->vars,'rightBar', $rightBar);
         }
-        $this->vars = array_add($this->vars,'sidebar', $this->bar);
+        if($this->contentLeftBar)
+        {
+            $leftBar = view(env('THEME').'.leftBar')->with('content_leftBar', $this->contentLeftBar)->render();
+            $this->vars = array_add($this->vars,'leftBar', $leftBar);
+        }
+        $this->vars = array_add($this->vars,'bar', $this->bar);
 
         $this->vars = array_add($this->vars,'keywords', $this->keywords);
         $this->vars = array_add($this->vars,'meta_desc', $this->meta_desc);
@@ -54,7 +59,7 @@ class SiteController extends Controller
         return view($this->template)->with($this->vars);
     }
 
-    protected function getMenu()
+    public function getMenu()
     {
         $menu = $this->m_rep->get();
         $menuBuilder = Menu::make('MyNav', function($m) use ($menu) {

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Menu;
+use URL;
 
 class MenusTableSeeder extends Seeder
 {
@@ -14,38 +15,39 @@ class MenusTableSeeder extends Seeder
     {
         Menu::create([
             'title' => 'Главная',
-            'path' => 'http://corporate.loc',
+            'path' => URL::to(''),
             'parent'=> 0,
         ]);
         Menu::create([
             'title' => 'Блог',
-            'path' => 'http://corporate.loc/articles',
+            'path' => URL::to('articles'),
             'parent'=> 0,
         ]);
         Menu::create([
             'title' => 'Компьютеры',
-            'path' => 'http://corporate.loc/articles/cat/computers',
+            'path' => URL::to('articles/cat/computers'),
             'parent'=> 3,
         ]);
         Menu::create([
             'title' => 'Интересное',
-            'path' => 'http://corporate.loc/articles/cat/interesting',
+            'path' => URL::to('articles/cat/interesting'),
             'parent'=> 3,
         ]);
         Menu::create([
             'title' => 'Советы',
-            'path' => 'http://corporate.loc/articles/cat/soveti',
+            'path' => URL::to('articles/cat/soveti'),
             'parent'=> 3,
         ]);
         Menu::create([
             'title' => 'Портфолио',
-            'path' => 'http://corporate.loc/portfolios',
+            'path' => URL::to('portfolios'),
             'parent'=> 0,
         ]);
         Menu::create([
             'title' => 'Контакты',
-            'path' => 'http://corporate.loc/contacts',
+            'path' => URL::to('contacts'),
             'parent'=> 0,
         ]);
     }
+
 }

@@ -8,8 +8,8 @@
     {!! $content !!}
 @endsection
 
-@section('sidebar')
-    {!! $rightBar or ''!!}
+@section('bar')
+    {!! $rightBar !!}
 @endsection
 
 @section('footer')

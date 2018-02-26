@@ -44,7 +44,7 @@ class IndexController extends SiteController
         $this->title = "Corporate Portal";
 
         $articles = $this->getArticles();
-        $this->contentRightBar = view(env('THEME').'.sidebar')->with('articles', $articles)->render();
+        $this->contentRightBar = view(env('THEME').'.indexBar')->with('articles', $articles)->render();
         $this->vars = array_add($this->vars,'content', $content);
 
         return $this->renderOutput();

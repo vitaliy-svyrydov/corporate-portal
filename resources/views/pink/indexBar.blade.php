@@ -1,7 +1,6 @@
-
     <div class="widget-first widget recent-posts">
         @if($articles)
-        <h3>{{ trans('ru.form_blog') }}</h3>
+        <h3>{{ Lang::get('ru.from_blog') }}</h3>
         <div class="recent-post group">
             @foreach($articles as $article)
             <div class="hentry-post group">
