@@ -52,7 +52,7 @@ class AdminController extends Controller
         $this->vars = array_add($this->vars, 'footer', $footer);
 
         return view($this->template)->with($this->vars);
-
+        
 
     }
 
@@ -60,11 +60,11 @@ class AdminController extends Controller
     {
         return Menu::make('adminMenu', function ($menu) {
 
-            $menu->add('Статьи', array('route' => 'articles.index'));
-            $menu->add('Портфолио', array('route' => 'articles.index'));
-            $menu->add('Меню', array('route' => 'articles.index'));
-            $menu->add('Пользователи', array('route' => 'articles.index'));
-            $menu->add('Привилегии', array('route' => 'articles.index'));
+            $menu->add('Статьи', array('route' => 'admin.articles.index'));
+            $menu->add('Портфолио', array('route' => 'admin.articles.index'));
+            $menu->add('Меню', array('route' => 'admin.articles.index'));
+            $menu->add('Пользователи', array('route' => 'admin.articles.index'));
+            $menu->add('Привилегии', array('route' => 'admin.articles.index'));
 
 
         });

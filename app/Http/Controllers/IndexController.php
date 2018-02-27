@@ -7,7 +7,7 @@ use App\Repositories\PortfoliosRepository;
 use App\Repositories\SlidersRepository;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
+use Config;
 
 class IndexController extends SiteController
 {
@@ -73,7 +73,8 @@ class IndexController extends SiteController
 
     public function getArticles()
     {
-        $articles = $this->a_rep->get(['title', 'img', 'created_at', 'alias'], Config::get('home_articles_count.settings'));
+        $articles = $this->a_rep->get(['title', 'img', 'created_at', 'alias'], Config::get('settings.home_articles_count'), FALSE, FALSE, 'id', 'desc');
+
         return $articles;
     }
 

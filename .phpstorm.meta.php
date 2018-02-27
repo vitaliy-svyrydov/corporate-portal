@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2018-02-13 16:22:24.
+    * Generated on 2018-02-27 13:25:28.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -57,6 +57,8 @@ namespace PHPSTORM_META {
         'command.medialibrary:clear' => \Spatie\MediaLibrary\Commands\ClearCommand::class,
         'command.medialibrary:clean' => \Spatie\MediaLibrary\Commands\CleanCommand::class,
         'Spatie\MediaLibrary\Filesystem\Filesystem' => \Spatie\MediaLibrary\Filesystem\DefaultFilesystem::class,
+        'debugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
+        'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -209,6 +211,8 @@ namespace PHPSTORM_META {
         'command.medialibrary:clear' => \Spatie\MediaLibrary\Commands\ClearCommand::class,
         'command.medialibrary:clean' => \Spatie\MediaLibrary\Commands\CleanCommand::class,
         'Spatie\MediaLibrary\Filesystem\Filesystem' => \Spatie\MediaLibrary\Filesystem\DefaultFilesystem::class,
+        'debugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
+        'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -361,6 +365,8 @@ namespace PHPSTORM_META {
         'command.medialibrary:clear' => \Spatie\MediaLibrary\Commands\ClearCommand::class,
         'command.medialibrary:clean' => \Spatie\MediaLibrary\Commands\CleanCommand::class,
         'Spatie\MediaLibrary\Filesystem\Filesystem' => \Spatie\MediaLibrary\Filesystem\DefaultFilesystem::class,
+        'debugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
+        'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -513,6 +519,8 @@ namespace PHPSTORM_META {
         'command.medialibrary:clear' => \Spatie\MediaLibrary\Commands\ClearCommand::class,
         'command.medialibrary:clean' => \Spatie\MediaLibrary\Commands\CleanCommand::class,
         'Spatie\MediaLibrary\Filesystem\Filesystem' => \Spatie\MediaLibrary\Filesystem\DefaultFilesystem::class,
+        'debugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
+        'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -665,6 +673,8 @@ namespace PHPSTORM_META {
         'command.medialibrary:clear' => \Spatie\MediaLibrary\Commands\ClearCommand::class,
         'command.medialibrary:clean' => \Spatie\MediaLibrary\Commands\CleanCommand::class,
         'Spatie\MediaLibrary\Filesystem\Filesystem' => \Spatie\MediaLibrary\Filesystem\DefaultFilesystem::class,
+        'debugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
+        'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -817,6 +827,8 @@ namespace PHPSTORM_META {
         'command.medialibrary:clear' => \Spatie\MediaLibrary\Commands\ClearCommand::class,
         'command.medialibrary:clean' => \Spatie\MediaLibrary\Commands\CleanCommand::class,
         'Spatie\MediaLibrary\Filesystem\Filesystem' => \Spatie\MediaLibrary\Filesystem\DefaultFilesystem::class,
+        'debugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
+        'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -969,6 +981,8 @@ namespace PHPSTORM_META {
         'command.medialibrary:clear' => \Spatie\MediaLibrary\Commands\ClearCommand::class,
         'command.medialibrary:clean' => \Spatie\MediaLibrary\Commands\CleanCommand::class,
         'Spatie\MediaLibrary\Filesystem\Filesystem' => \Spatie\MediaLibrary\Filesystem\DefaultFilesystem::class,
+        'debugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
+        'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
