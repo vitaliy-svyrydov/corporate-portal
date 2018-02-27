@@ -78,7 +78,6 @@ class CommentController extends SiteController
 
         $comment->load('user');
         $data['id'] = $comment->id;
-
         $data['email'] = (!empty($data['email'])) ? $data['email'] : $comment->user->email;
         $data['name'] = (!empty($data['name'])) ? $data['name'] : $comment->user->name;
         $data['hash'] = md5($data['email']);
