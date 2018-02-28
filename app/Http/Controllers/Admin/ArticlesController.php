@@ -99,7 +99,7 @@ class ArticlesController extends AdminController
 
     public function edit($alias)
     {
-        
+
         if(Gate::denies('edit', new Article)) {
             abort(403);
         }

@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Support\Facades\Auth;
-
+use Auth;
 use Menu;
 
 
@@ -62,7 +61,7 @@ class AdminController extends Controller
 
             $menu->add('Статьи', array('route' => 'admin.articles.index'));
             $menu->add('Портфолио', array('route' => 'admin.articles.index'));
-            $menu->add('Меню', array('route' => 'admin.articles.index'));
+            $menu->add('Меню', array('route' => 'admin.menus.index'));
             $menu->add('Пользователи', array('route' => 'admin.articles.index'));
             $menu->add('Привилегии', array('route' => 'admin.permissions.index'));
 
