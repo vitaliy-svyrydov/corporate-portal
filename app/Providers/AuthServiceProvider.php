@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Article;
 use App\Permission;
 use App\Menu;
+use App\User;
+use App\Policies\UserPolicy;
 use App\Policies\MenusPolicy;
 use App\Policies\PermissionPolicy;
 use App\Policies\ArticlePolicy;
@@ -22,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         Article::class => ArticlePolicy::class,
         Permission::class => PermissionPolicy::class,
         Menu::class => MenusPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**

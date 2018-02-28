@@ -18,7 +18,6 @@ class PermissionsRepository extends Repository {
 
 
     public function changePermissions ($request) {
-
         if(Gate::denies('change', $this->model)) {
             abort(403);
         }
