@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Article;
 use App\Permission;
+use App\Menu;
+use App\Policies\MenusPolicy;
 use App\Policies\PermissionPolicy;
 use App\Policies\ArticlePolicy;
 use Gate;
@@ -19,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Article::class => ArticlePolicy::class,
         Permission::class => PermissionPolicy::class,
+        Menu::class => MenusPolicy::class,
     ];
 
     /**
@@ -39,6 +42,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('EDIT_USERS', function ($user){
             return $user->canDo('EDIT_USERS');
         });
+        Gate::define('VIEW_ADMIN_MENU', function ($user){
+            return $user->canDo('VIEW_ADMIN_MENU');
+        });
+
 
 
     }

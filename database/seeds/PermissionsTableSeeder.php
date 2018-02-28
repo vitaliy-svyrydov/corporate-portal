@@ -33,5 +33,11 @@ class PermissionsTableSeeder extends Seeder
         Permission::create([
             'name' => 'EDIT_USERS'
         ]);
+        Permission::create([
+            'name' => 'VIEW_ADMIN_MENU'
+        ]);
+        Permission::create([
+            'name' => 'EDIT_MENU'
+        ]);
     }
 }
