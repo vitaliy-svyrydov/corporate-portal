@@ -11,7 +11,6 @@ use Config;
 
 class IndexController extends SiteController
 {
-
     public function __construct(SlidersRepository $s_rep, PortfoliosRepository $p_rep, ArticlesRepository $a_rep)
     {
         parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu));
@@ -33,11 +32,11 @@ class IndexController extends SiteController
     {
         $portfolios = $this->getPortfolios();
         $content = view(env('THEME').'.content')->with('portfolios', $portfolios)->render();
-        $this->vars = array_add($this->vars,'content', $content);
+        $this->vars = array_add($this->vars, 'content', $content);
 
         $sliderItems = $this->getSliders();
         $sliders = view(env('THEME').'.slider')->with('sliders', $sliderItems)->render();
-        $this->vars = array_add($this->vars,'sliders', $sliders);
+        $this->vars = array_add($this->vars, 'sliders', $sliders);
 
         $this->keywords = "Home Page";
         $this->meta_desc = "Home Page";
@@ -45,7 +44,7 @@ class IndexController extends SiteController
 
         $articles = $this->getArticles();
         $this->contentRightBar = view(env('THEME').'.indexBar')->with('articles', $articles)->render();
-        $this->vars = array_add($this->vars,'content', $content);
+        $this->vars = array_add($this->vars, 'content', $content);
 
         return $this->renderOutput();
     }
@@ -61,10 +60,10 @@ class IndexController extends SiteController
     {
         $sliders = $this->s_rep->get('*', Config::get('settings.slider-cycle'));
 
-        if($sliders->isEmpty()){
+        if ($sliders->isEmpty()) {
             return false;
         }
-        $sliders->transform(function ($item, $key){
+        $sliders->transform(function ($item, $key) {
             $item->img = Config::get('settings.slider_path').'/'.$item->img;
             return $item;
         });
@@ -73,7 +72,7 @@ class IndexController extends SiteController
 
     public function getArticles()
     {
-        $articles = $this->a_rep->get(['title', 'img', 'created_at', 'alias'], Config::get('settings.home_articles_count'), FALSE, FALSE, 'id', 'desc');
+        $articles = $this->a_rep->get(['title', 'img', 'created_at', 'alias'], Config::get('settings.home_articles_count'), false, false, 'id', 'desc');
 
         return $articles;
     }

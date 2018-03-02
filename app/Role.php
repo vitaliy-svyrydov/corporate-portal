@@ -8,12 +8,14 @@ class Role extends Model
 {
     //
 
-    public function users() {
-        return $this->belongsToMany('App\User','role_user');
+    public function users()
+    {
+        return $this->belongsToMany('App\User', 'role_user');
     }
 
-    public function perms() {
-        return $this->belongsToMany('App\Permission','permission_role');
+    public function perms()
+    {
+        return $this->belongsToMany('App\Permission', 'permission_role');
     }
     public function hasPermission($name, $require = false)
     {
@@ -39,15 +41,14 @@ class Role extends Model
         return false;
     }
 
-    public function savePermissions($inputPermissions) {
-
-        if(!empty($inputPermissions)) {
+    public function savePermissions($inputPermissions)
+    {
+        if (!empty($inputPermissions)) {
             $this->perms()->sync($inputPermissions);
-        }
-        else {
+        } else {
             $this->perms()->detach();
         }
 
-        return TRUE;
+        return true;
     }
 }

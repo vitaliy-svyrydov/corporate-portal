@@ -16,12 +16,11 @@ class UserRequest extends FormRequest
         $validator = parent::getValidatorInstance();
 
         $validator->sometimes('password', 'required|min:6|confirmed', function ($input) {
-
             if (!empty($input->password) || ((empty($input->password) && $this->route()->getName() !== 'admin.users.update'))) {
-                return TRUE;
+                return true;
             }
 
-            return FALSE;
+            return false;
         });
 
         return $validator;

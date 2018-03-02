@@ -29,7 +29,7 @@ class PermissionsController extends AdminController
      */
     public function index()
     {
-        if(Gate::denies('EDIT_USERS')) {
+        if (Gate::denies('EDIT_USERS')) {
             abort(403);
         }
         $this->title = "Менеджер прав пользователей";
@@ -76,7 +76,7 @@ class PermissionsController extends AdminController
     {
         $result = $this->per_rep->changePermissions($request);
 
-        if(is_array($result) && !empty($result['error'])) {
+        if (is_array($result) && !empty($result['error'])) {
             return back()->with($result);
         }
 

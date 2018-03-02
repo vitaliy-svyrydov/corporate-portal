@@ -23,15 +23,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::pattern('alias','[\w-]+');
+        Route::pattern('alias', '[\w-]+');
 
         parent::boot();
 
         Route::bind('articles', function ($value) {
-                return \App\Article::where('alias',$value)->first();
-            });
+            return \App\Article::where('alias', $value)->first();
+        });
         Route::bind('menus', function ($value) {
-            return \App\Menu::where('id',$value)->first();
+            return \App\Menu::where('id', $value)->first();
         });
     }
 

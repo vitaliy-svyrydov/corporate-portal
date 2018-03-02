@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-
 use Menu;
 use Gate;
 
@@ -15,7 +14,6 @@ use App\Http\Requests\MenusRequest;
 
 class MenusController extends AdminController
 {
-
     protected $m_rep;
 
 
@@ -41,12 +39,12 @@ class MenusController extends AdminController
      */
     public function index()
     {
-        if(Gate::denies('VIEW_ADMIN_MENU')) {
+        if (Gate::denies('VIEW_ADMIN_MENU')) {
             abort(403);
         }
         $menu = $this->getMenus();
 
-        $this->content = view(env('THEME').'.admin.menus_content')->with('menus',$menu)->render();
+        $this->content = view(env('THEME').'.admin.menus_content')->with('menus', $menu)->render();
 
         return $this->renderOutput();
     }
@@ -55,23 +53,19 @@ class MenusController extends AdminController
     {
         $menu = $this->m_rep->get();
 
-        if($menu->isEmpty()) {
-            return FALSE;
+        if ($menu->isEmpty()) {
+            return false;
         }
-        return Menu::make('forMenuPart', function($m) use($menu) {
-
-            foreach($menu as $item) {
-                if($item->parent == 0) {
-                    $m->add($item->title,$item->path)->id($item->id);
-                }
-
-                else {
-                    if($m->find($item->parent)) {
-                        $m->find($item->parent)->add($item->title,$item->path)->id($item->id);
+        return Menu::make('forMenuPart', function ($m) use ($menu) {
+            foreach ($menu as $item) {
+                if ($item->parent == 0) {
+                    $m->add($item->title, $item->path)->id($item->id);
+                } else {
+                    if ($m->find($item->parent)) {
+                        $m->find($item->parent)->add($item->title, $item->path)->id($item->id);
                     }
                 }
             }
-
         });
     }
     /**
@@ -81,31 +75,27 @@ class MenusController extends AdminController
      */
     public function create()
     {
-
         $this->title = 'Новый пункт меню';
 
         $tmp = $this->getMenus()->roots();
 
         //null
-        $menus = $tmp->reduce(function($returnMenus, $menu) {
-
+        $menus = $tmp->reduce(function ($returnMenus, $menu) {
             $returnMenus[$menu->id] = $menu->title;
             return $returnMenus;
-
-        },['0' => 'Родительский пункт меню']);
+        }, ['0' => 'Родительский пункт меню']);
 
         $categories = \App\Category::select(['title','alias','parent_id','id'])->get();
 
         $list = array();
-        $list = array_add($list,'0','Не используется');
-        $list = array_add($list,'parent','Раздел блог');
+        $list = array_add($list, '0', 'Не используется');
+        $list = array_add($list, 'parent', 'Раздел блог');
 
-        foreach($categories as $category) {
-            if($category->parent_id == 0) {
+        foreach ($categories as $category) {
+            if ($category->parent_id == 0) {
                 $list[$category->title] = array();
-            }
-            else {
-                $list[$categories->where('id',$category->parent_id)->first()->title][$category->alias] = $category->title;
+            } else {
+                $list[$categories->where('id', $category->parent_id)->first()->title][$category->alias] = $category->title;
             }
         }
 
@@ -117,7 +107,7 @@ class MenusController extends AdminController
         }, []);
 
 
-        $filters = \App\Filter::select('id','title','alias')->get()->reduce(function ($returnFilters, $filter) {
+        $filters = \App\Filter::select('id', 'title', 'alias')->get()->reduce(function ($returnFilters, $filter) {
             $returnFilters[$filter->alias] = $filter->title;
             return $returnFilters;
         }, ['parent' => 'Раздел портфолио']);
@@ -132,8 +122,6 @@ class MenusController extends AdminController
 
 
         return $this->renderOutput();
-
-
     }
 
 
@@ -142,7 +130,7 @@ class MenusController extends AdminController
         //
         $result = $this->m_rep->addMenu($request);
 
-        if(is_array($result) && !empty($result['error'])) {
+        if (is_array($result) && !empty($result['error'])) {
             return back()->with($result);
         }
 
@@ -165,62 +153,48 @@ class MenusController extends AdminController
     {
         $this->title = 'Редактирование ссылки - '.$menu->title;
 
-        $type = FALSE;
-        $option = FALSE;
+        $type = false;
+        $option = false;
         
         $route = app('router')->getRoutes()->match(app('request')->create($menu->path));
 
         $aliasRoute = $route->getName();
         $parameters = $route->parameters();
 
-        if($aliasRoute == 'articles.index' || $aliasRoute == 'articlesCat') {
+        if ($aliasRoute == 'articles.index' || $aliasRoute == 'articlesCat') {
             $type = 'blogLink';
             $option = isset($parameters['cat_alias']) ? $parameters['cat_alias'] : 'parent';
-        }
-
-        else if($aliasRoute == 'articles.show') {
+        } elseif ($aliasRoute == 'articles.show') {
             $type = 'blogLink';
             $option = isset($parameters['alias']) ? $parameters['alias'] : '';
-
-        }
-
-        else if($aliasRoute == 'portfolios.index') {
+        } elseif ($aliasRoute == 'portfolios.index') {
             $type = 'portfolioLink';
             $option = 'parent';
-
-        }
-
-        else if($aliasRoute == 'portfolios.show') {
+        } elseif ($aliasRoute == 'portfolios.show') {
             $type = 'portfolioLink';
             $option = isset($parameters['alias']) ? $parameters['alias'] : '';
-
-        }
-
-        else {
+        } else {
             $type = 'customLink';
         }
 
         $tmp = $this->getMenus()->roots();
 
-        $menus = $tmp->reduce(function($returnMenus, $menu) {
-
+        $menus = $tmp->reduce(function ($returnMenus, $menu) {
             $returnMenus[$menu->id] = $menu->title;
             return $returnMenus;
-
-        },['0' => 'Родительский пункт меню']);
+        }, ['0' => 'Родительский пункт меню']);
 
         $categories = \App\Category::select(['title','alias','parent_id','id'])->get();
 
         $list = array();
-        $list = array_add($list,'0','Не используется');
-        $list = array_add($list,'parent','Раздел блог');
+        $list = array_add($list, '0', 'Не используется');
+        $list = array_add($list, 'parent', 'Раздел блог');
 
-        foreach($categories as $category) {
-            if($category->parent_id == 0) {
+        foreach ($categories as $category) {
+            if ($category->parent_id == 0) {
                 $list[$category->title] = array();
-            }
-            else {
-                $list[$categories->where('id',$category->parent_id)->first()->title][$category->alias] = $category->title;
+            } else {
+                $list[$categories->where('id', $category->parent_id)->first()->title][$category->alias] = $category->title;
             }
         }
 
@@ -232,7 +206,7 @@ class MenusController extends AdminController
         }, []);
 
 
-        $filters = \App\Filter::select('id','title','alias')->get()->reduce(function ($returnFilters, $filter) {
+        $filters = \App\Filter::select('id', 'title', 'alias')->get()->reduce(function ($returnFilters, $filter) {
             $returnFilters[$filter->alias] = $filter->title;
             return $returnFilters;
         }, ['parent' => 'Раздел портфолио']);
@@ -252,9 +226,9 @@ class MenusController extends AdminController
     public function update(Request $request, \App\Menu $menu)
     {
         //
-        $result = $this->m_rep->updateMenu($request,$menu);
+        $result = $this->m_rep->updateMenu($request, $menu);
 
-        if(is_array($result) && !empty($result['error'])) {
+        if (is_array($result) && !empty($result['error'])) {
             return back()->with($result);
         }
 
@@ -264,10 +238,9 @@ class MenusController extends AdminController
     
     public function destroy(\App\Menu $menu)
     {
-        
         $result = $this->m_rep->deleteMenu($menu);
 
-        if(is_array($result) && !empty($result['error'])) {
+        if (is_array($result) && !empty($result['error'])) {
             return back()->with($result);
         }
 

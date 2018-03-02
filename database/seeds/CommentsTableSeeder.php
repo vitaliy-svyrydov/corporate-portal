@@ -47,7 +47,7 @@ class CommentsTableSeeder extends Seeder
             'site' => 'http://Bob.ru',
             'parent_id' => 5,
         ]);
-                Comment::create([
+        Comment::create([
             'text' => 'This is comment',
             'name' => 'Name',
             'email' => 'email@emal.com',
@@ -56,5 +56,4 @@ class CommentsTableSeeder extends Seeder
             'article_id' => 2
         ]);
     }
-
 }
