@@ -19,7 +19,6 @@ class ChangeRoleUserTable extends Migration
 
             $table->integer('role_id')->unsigned()->default(1);
             $table->foreign('role_id')->references('id')->on('roles');
-
         });
     }
 

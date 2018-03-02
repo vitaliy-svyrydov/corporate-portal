@@ -7,14 +7,13 @@ use App\Repositories\PortfoliosRepository;
 
 class PortfolioController extends SiteController
 {
-    public function __construct(PortfoliosRepository $p_rep) {
-
+    public function __construct(PortfoliosRepository $p_rep)
+    {
         parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu));
 
         $this->p_rep = $p_rep;
 
         $this->template = env('THEME').'.portfolios';
-
     }
 
     public function index()
@@ -25,26 +24,25 @@ class PortfolioController extends SiteController
 
         $portfolios = $this->getPortfolios();
         $content = view(env('THEME').'.portfolios_content')->with('portfolios', $portfolios)->render();
-        $this->vars = array_add($this->vars,'content',$content);
+        $this->vars = array_add($this->vars, 'content', $content);
 
         return $this->renderOutput();
     }
 
-    public function getPortfolios($take = FALSE,$paginate = TRUE) {
-
-        $portfolios = $this->p_rep->get('*',$take,$paginate);
-        if($portfolios) {
+    public function getPortfolios($take = false, $paginate = true)
+    {
+        $portfolios = $this->p_rep->get('*', $take, $paginate);
+        if ($portfolios) {
             $portfolios->load('filter');
         }
 
         return $portfolios;
     }
 
-    public function show($alias) {
-
-
+    public function show($alias)
+    {
         $portfolio = $this->p_rep->one($alias);
-        $portfolios = $this->getPortfolios(config('settings.other_portfolios'), FALSE);
+        $portfolios = $this->getPortfolios(config('settings.other_portfolios'), false);
 
 
 
@@ -53,7 +51,7 @@ class PortfolioController extends SiteController
         $this->meta_desc = $portfolio->meta_desc;
 
         $content = view(env('THEME').'.portfolio_content')->with(['portfolio' => $portfolio,'portfolios' => $portfolios])->render();
-        $this->vars = array_add($this->vars,'content',$content);
+        $this->vars = array_add($this->vars, 'content', $content);
 
 
         return $this->renderOutput();

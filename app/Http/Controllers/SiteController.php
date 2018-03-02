@@ -21,8 +21,8 @@ class SiteController extends Controller
 
     protected $vars = [];
 
-    protected $contentRightBar = FALSE;
-    protected $contentLeftBar = FALSE;
+    protected $contentRightBar = false;
+    protected $contentLeftBar = false;
 
     protected $bar = 'no';
 
@@ -34,27 +34,25 @@ class SiteController extends Controller
     {
         $menu = $this->getMenu();
 
-        $navigation = view(env('THEME').'.navigation')->with('menu',$menu)->render();
-        $this->vars = array_add($this->vars,'navigation', $navigation);
+        $navigation = view(env('THEME').'.navigation')->with('menu', $menu)->render();
+        $this->vars = array_add($this->vars, 'navigation', $navigation);
 
-        if($this->contentRightBar)
-        {
+        if ($this->contentRightBar) {
             $rightBar = view(env('THEME').'.rightBar')->with('contentRightBar', $this->contentRightBar)->render();
-            $this->vars = array_add($this->vars,'rightBar', $rightBar);
+            $this->vars = array_add($this->vars, 'rightBar', $rightBar);
         }
-        if($this->contentLeftBar)
-        {
+        if ($this->contentLeftBar) {
             $leftBar = view(env('THEME').'.leftBar')->with('content_leftBar', $this->contentLeftBar)->render();
-            $this->vars = array_add($this->vars,'leftBar', $leftBar);
+            $this->vars = array_add($this->vars, 'leftBar', $leftBar);
         }
-        $this->vars = array_add($this->vars,'bar', $this->bar);
+        $this->vars = array_add($this->vars, 'bar', $this->bar);
 
-        $this->vars = array_add($this->vars,'keywords', $this->keywords);
-        $this->vars = array_add($this->vars,'meta_desc', $this->meta_desc);
-        $this->vars = array_add($this->vars,'title', $this->title);
+        $this->vars = array_add($this->vars, 'keywords', $this->keywords);
+        $this->vars = array_add($this->vars, 'meta_desc', $this->meta_desc);
+        $this->vars = array_add($this->vars, 'title', $this->title);
 
         $footer = view(env('THEME').'.footer')->render();
-        $this->vars = array_add($this->vars,'footer',  $footer);
+        $this->vars = array_add($this->vars, 'footer', $footer);
 
         return view($this->template)->with($this->vars);
     }
@@ -62,23 +60,18 @@ class SiteController extends Controller
     public function getMenu()
     {
         $menu = $this->m_rep->get();
-        $menuBuilder = Menu::make('MyNav', function($m) use ($menu) {
-
-            foreach($menu as $item) {
-
-                if($item->parent == 0) {
-                    $m->add($item->title,$item->path)->id($item->id);
-                }
-                else {
-                    if($m->filter($item->parent)) {
-                        $m->filter($item->parent)->add($item->title,$item->path)->id($item->id);
+        $menuBuilder = Menu::make('MyNav', function ($m) use ($menu) {
+            foreach ($menu as $item) {
+                if ($item->parent == 0) {
+                    $m->add($item->title, $item->path)->id($item->id);
+                } else {
+                    if ($m->filter($item->parent)) {
+                        $m->filter($item->parent)->add($item->title, $item->path)->id($item->id);
                     }
                 }
             }
-
         });
 
         return $menuBuilder;
     }
-
 }
