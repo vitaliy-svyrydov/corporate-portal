@@ -12,19 +12,18 @@ use App\User;
 
 class UsersController extends AdminController
 {
-
     protected $us_rep;
     protected $rol_rep;
 
 
-    public function __construct(RolesRepository $rol_rep, UsersRepository $us_rep) {
+    public function __construct(RolesRepository $rol_rep, UsersRepository $us_rep)
+    {
         parent::__construct();
 
         $this->us_rep = $us_rep;
         $this->rol_rep = $rol_rep;
 
         $this->template = env('THEME').'.admin.users';
-
     }
 
 
@@ -35,7 +34,6 @@ class UsersController extends AdminController
      */
     public function index()
     {
-
         if (Gate::denies('EDIT_USERS')) {
             abort(403);
         }
@@ -60,14 +58,16 @@ class UsersController extends AdminController
         $roles = $this->getRoles()->reduce(function ($returnRoles, $role) {
             $returnRoles[$role->id] = $role->name;
             return $returnRoles;
-        }, []);;
+        }, []);
+        ;
 
-        $this->content = view(env('THEME').'.admin.users_create_content')->with('roles',$roles)->render();
+        $this->content = view(env('THEME').'.admin.users_create_content')->with('roles', $roles)->render();
 
         return $this->renderOutput();
     }
 
-    public function getRoles() {
+    public function getRoles()
+    {
         return \App\Role::all();
     }
 
@@ -76,7 +76,7 @@ class UsersController extends AdminController
     {
         //
         $result = $this->us_rep->addUser($request);
-        if(is_array($result) && !empty($result['error'])) {
+        if (is_array($result) && !empty($result['error'])) {
             return back()->with($result);
         }
         return redirect('/admin')->with($result);
@@ -101,15 +101,13 @@ class UsersController extends AdminController
         $this->content = view(env('THEME').'.admin.users_create_content')->with(['roles'=>$roles,'user'=>$user])->render();
 
         return $this->renderOutput();
-
     }
 
 
     public function update(UserRequest $request, User $user)
     {
-        
-        $result = $this->us_rep->updateUser($request,$user);
-        if(is_array($result) && !empty($result['error'])) {
+        $result = $this->us_rep->updateUser($request, $user);
+        if (is_array($result) && !empty($result['error'])) {
             return back()->with($result);
         }
         return redirect('/admin')->with($result);
@@ -119,7 +117,7 @@ class UsersController extends AdminController
     public function destroy(User $user)
     {
         $result = $this->us_rep->deleteUser($user);
-        if(is_array($result) && !empty($result['error'])) {
+        if (is_array($result) && !empty($result['error'])) {
             return back()->with($result);
         }
         return redirect('/admin')->with($result);

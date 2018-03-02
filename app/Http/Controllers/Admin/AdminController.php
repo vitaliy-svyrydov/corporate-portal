@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use Menu;
-
+use Gate;
 
 class AdminController extends Controller
 {
@@ -19,7 +19,7 @@ class AdminController extends Controller
 
     protected $template;
 
-    protected $content = FALSE;
+    protected $content = false;
 
     protected $title;
 
@@ -27,7 +27,6 @@ class AdminController extends Controller
 
     public function __construct()
     {
-
     }
 
     public function renderOutput()
@@ -51,21 +50,18 @@ class AdminController extends Controller
         $this->vars = array_add($this->vars, 'footer', $footer);
 
         return view($this->template)->with($this->vars);
-        
-
     }
 
     public function getMenu()
     {
         return Menu::make('adminMenu', function ($menu) {
-
             $menu->add('Статьи', array('route' => 'admin.articles.index'));
             $menu->add('Портфолио', array('route' => 'admin.articles.index'));
-            $menu->add('Меню', array('route' => 'admin.menus.index'));
+            if (Gate::allows('VIEW_ADMIN_MENU')) {
+                $menu->add('Меню', array('route' => 'admin.menus.index'));
+            }
             $menu->add('Пользователи', array('route' => 'admin.users.index'));
             $menu->add('Привилегии', array('route' => 'admin.permissions.index'));
-
-
         });
     }
 }

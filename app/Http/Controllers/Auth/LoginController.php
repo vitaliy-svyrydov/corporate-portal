@@ -45,7 +45,7 @@ class LoginController extends SiteController
      */
     public function showLoginForm()
     {
-        return view(env('THEME').'.login')->with('title','Вход на сайт');
+        return view(env('THEME').'.login')->with('title', 'Вход на сайт');
     }
 
     public function login(Request $request)

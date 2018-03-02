@@ -15,42 +15,41 @@ class ArticlesRepository extends Repository
     }
     public function one($alias, $attr = [])
     {
-        $article = parent::one($alias,$attr);
+        $article = parent::one($alias, $attr);
 
-        if($article && !empty($attr)){
+        if ($article && !empty($attr)) {
             $article->load('comments');
             $article->comments->load('user');
         }
         return $article;
     }
-    public function addArticle($request) {
-
-        if(Gate::denies('save', $this->model)) {
+    public function addArticle($request)
+    {
+        if (Gate::denies('save', $this->model)) {
             abort(403);
         }
 
-        $data = $request->except('_token','image');
+        $data = $request->except('_token', 'image');
 
-        if(empty($data)) {
+        if (empty($data)) {
             return array('error' => 'Нет данных');
         }
 
-        if(empty($data['alias'])) {
+        if (empty($data['alias'])) {
             $data['alias'] = $this->transliterate($data['title']);
         }
 
-        if($this->one($data['alias'],FALSE)) {
+        if ($this->one($data['alias'], false)) {
             $request->merge(array('alias' => $data['alias']));
             $request->flash();
 
             return ['error' => 'Данный псевдоним уже успользуется'];
         }
 
-        if($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
 
-            if($image->isValid()) {
-
+            if ($image->isValid()) {
                 $str = str_random(8);
 
                 $obj = new \stdClass;
@@ -61,59 +60,62 @@ class ArticlesRepository extends Repository
 
                 $img = Image::make($image);
 
-                $img->fit(Config::get('settings.image')['width'],
-                    Config::get('settings.image')['height'])->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->path);
+                $img->fit(
+                    Config::get('settings.image')['width'],
+                    Config::get('settings.image')['height']
+                )->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->path);
 
-                $img->fit(Config::get('settings.articles_img')['max']['width'],
-                    Config::get('settings.articles_img')['max']['height'])->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->max);
+                $img->fit(
+                    Config::get('settings.articles_img')['max']['width'],
+                    Config::get('settings.articles_img')['max']['height']
+                )->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->max);
 
-                $img->fit(Config::get('settings.articles_img')['mini']['width'],
-                    Config::get('settings.articles_img')['mini']['height'])->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->mini);
+                $img->fit(
+                    Config::get('settings.articles_img')['mini']['width'],
+                    Config::get('settings.articles_img')['mini']['height']
+                )->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->mini);
 
 
                 $data['img'] = json_encode($obj);
 
                 $this->model->fill($data);
 
-                if($request->user()->articles()->save($this->model)) {
+                if ($request->user()->articles()->save($this->model)) {
                     return ['status' => 'Материал добавлен'];
                 }
-
             }
-
         }
     }
 
-    public function updateArticle($request, $article) {
-
-        if(Gate::denies('edit', $this->model)) {
+    public function updateArticle($request, $article)
+    {
+        if (Gate::denies('edit', $this->model)) {
             abort(403);
         }
 
-        $data = $request->except('_token','image','_method');
+        $data = $request->except('_token', 'image', '_method');
 
-        if(empty($data)) {
+        if (empty($data)) {
             return array('error' => 'Нет данных');
         }
 
-        if(empty($data['alias'])) {
+        if (empty($data['alias'])) {
             $data['alias'] = $this->transliterate($data['title']);
         }
 
-        $result = $this->one($data['alias'],FALSE);
+        $result = $this->one($data['alias'], false);
 
-        if(isset($result->id) && ($result->id != $article->id)) {
+        if (isset($result->id) && ($result->id != $article->id)) {
             $request->merge(array('alias' => $data['alias']));
             $request->flash();
 
             return ['error' => 'Данный псевдоним уже успользуется'];
         }
 
-        if($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
 
-            if($image->isValid()) {
-
+            if ($image->isValid()) {
                 $str = str_random(8);
 
                 $obj = new \stdClass;
@@ -124,14 +126,20 @@ class ArticlesRepository extends Repository
 
                 $img = Image::make($image);
 
-                $img->fit(Config::get('settings.image')['width'],
-                    Config::get('settings.image')['height'])->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->path);
+                $img->fit(
+                    Config::get('settings.image')['width'],
+                    Config::get('settings.image')['height']
+                )->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->path);
 
-                $img->fit(Config::get('settings.articles_img')['max']['width'],
-                    Config::get('settings.articles_img')['max']['height'])->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->max);
+                $img->fit(
+                    Config::get('settings.articles_img')['max']['width'],
+                    Config::get('settings.articles_img')['max']['height']
+                )->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->max);
 
-                $img->fit(Config::get('settings.articles_img')['mini']['width'],
-                    Config::get('settings.articles_img')['mini']['height'])->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->mini);
+                $img->fit(
+                    Config::get('settings.articles_img')['mini']['width'],
+                    Config::get('settings.articles_img')['mini']['height']
+                )->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->mini);
 
 
                 $data['img'] = json_encode($obj);
@@ -139,22 +147,20 @@ class ArticlesRepository extends Repository
         }
         $article->fill($data);
 
-        if($article->update()) {
+        if ($article->update()) {
             return ['status' => 'Материал обновлен'];
         }
-
     }
-    public function deleteArticle($article) {
-
-        if(Gate::denies('destroy', $article)) {
+    public function deleteArticle($article)
+    {
+        if (Gate::denies('destroy', $article)) {
             abort(403);
         }
 
         $article->comments()->delete();
 
-        if($article->delete()) {
+        if ($article->delete()) {
             return ['status' => 'Материал удален'];
         }
-
     }
 }

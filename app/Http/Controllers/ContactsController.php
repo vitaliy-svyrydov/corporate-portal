@@ -8,26 +8,22 @@ use App\Http\Requests;
 
 use Illuminate\Support\Facades\Mail;
 
-
 class ContactsController extends SiteController
 {
     //
-    public function __construct() {
-
+    public function __construct()
+    {
         parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu));
 
 
         $this->bar = 'left';
 
         $this->template = env('THEME').'.contacts';
-
     }
 
-    public function index(Request $request) {
-
-
+    public function index(Request $request)
+    {
         if ($request->isMethod('post')) {
-
             $messages = [
                 'required' => 'Поле :attribute Обязательно к заполнению',
                 'email'    => 'Поле :attribute должно содержать правильный email адрес',
@@ -37,7 +33,7 @@ class ContactsController extends SiteController
                 'name' => 'required|max:255',
                 'email' => 'required|email',
                 'text' => 'required'
-            ],$messages);
+            ], $messages);
 
             $data = $request->all();
 
@@ -48,22 +44,19 @@ class ContactsController extends SiteController
 
                 $m->to($mail_admin, 'Mr. Admin')->subject('Question');
             });
-            if($data) {
+            if ($data) {
                 return redirect()->route('contacts')->with('status', 'Email is send');
             }
-
         }
 
 
         $this->title = 'Контакты';
 
         $content = view(env('THEME').'.contact_content')->render();
-        $this->vars = array_add($this->vars,'content',$content);
+        $this->vars = array_add($this->vars, 'content', $content);
 
         $this->contentLeftBar = view(env('THEME').'.contact_bar')->render();
 
         return $this->renderOutput();
     }
-
-
 }

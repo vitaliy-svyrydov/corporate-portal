@@ -24,36 +24,36 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function articles() {
+    public function articles()
+    {
         return $this->hasMany('App\Article');
     }
 
 
-    public function roles() {
-        return $this->belongsToMany('App\Role','role_user');
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role', 'role_user');
     }
 
 
-    public function canDo($permission, $require = FALSE) {
-        if(is_array($permission)) {
-            foreach($permission as $permName) {
-
+    public function canDo($permission, $require = false)
+    {
+        if (is_array($permission)) {
+            foreach ($permission as $permName) {
                 $permName = $this->canDo($permName);
-                if($permName && !$require) {
-                    return TRUE;
-                }
-                else if(!$permName  && $require) {
-                    return FALSE;
+                if ($permName && !$require) {
+                    return true;
+                } elseif (!$permName  && $require) {
+                    return false;
                 }
             }
 
             return  $require;
-        }
-        else {
-            foreach($this->roles as $role) {
-                foreach($role->perms as $perm) {
-                    if(str_is($permission,$perm->name)) {
-                        return TRUE;
+        } else {
+            foreach ($this->roles as $role) {
+                foreach ($role->perms as $perm) {
+                    if (str_is($permission, $perm->name)) {
+                        return true;
                     }
                 }
             }
@@ -83,6 +83,4 @@ class User extends Authenticatable
 
         return false;
     }
-
-
 }

@@ -49,5 +49,4 @@ class MenusTableSeeder extends Seeder
             'parent'=> 0,
         ]);
     }
-
 }

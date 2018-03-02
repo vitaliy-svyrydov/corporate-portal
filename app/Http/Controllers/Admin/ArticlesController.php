@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Gate;
 
-
 class ArticlesController extends AdminController
 {
     public function __construct(ArticlesRepository $a_rep)
@@ -18,7 +17,6 @@ class ArticlesController extends AdminController
         parent::__construct();
         $this->a_rep = $a_rep;
         $this->template = env('THEME').'.admin.articles';
-
     }
     /**
      * Display a listing of the resource.
@@ -27,14 +25,14 @@ class ArticlesController extends AdminController
      */
     public function index()
     {
-        if(Gate::denies('VIEW_ARTICLES')){
+        if (Gate::denies('VIEW_ARTICLES')) {
             abort(403);
         }
         $this->title = 'Менеджер статтей';
 
         $articles = $this->getArticles();
-        $content = view(env('THEME').'.admin.articles_content')->with('articles',$articles)->render();
-        $this->vars = array_add($this->vars,'content',$content);
+        $content = view(env('THEME').'.admin.articles_content')->with('articles', $articles)->render();
+        $this->vars = array_add($this->vars, 'content', $content);
         
         return $this->renderOutput();
     }
@@ -49,7 +47,7 @@ class ArticlesController extends AdminController
      */
     public function create()
     {
-        if(Gate::denies('save', new \App\Article)) {
+        if (Gate::denies('save', new \App\Article)) {
             abort(403);
         }
 
@@ -59,12 +57,11 @@ class ArticlesController extends AdminController
 
         $lists = array();
 
-        foreach($categories as $category) {
-            if($category->parent_id == 0) {
+        foreach ($categories as $category) {
+            if ($category->parent_id == 0) {
                 $lists[$category->title] = array();
-            }
-            else {
-                $lists[$categories->where('id',$category->parent_id)->first()->title][$category->id] = $category->title;
+            } else {
+                $lists[$categories->where('id', $category->parent_id)->first()->title][$category->id] = $category->title;
             }
         }
 
@@ -78,7 +75,7 @@ class ArticlesController extends AdminController
     {
         $result = $this->a_rep->addArticle($request);
 
-        if(is_array($result) && !empty($result['error'])) {
+        if (is_array($result) && !empty($result['error'])) {
             return back()->with($result);
         }
 
@@ -99,8 +96,7 @@ class ArticlesController extends AdminController
 
     public function edit($alias)
     {
-
-        if(Gate::denies('edit', new Article)) {
+        if (Gate::denies('edit', new Article)) {
             abort(403);
         }
         $article = $this->a_rep->one($alias);
@@ -111,12 +107,11 @@ class ArticlesController extends AdminController
 
         $lists = array();
 
-        foreach($categories as $category) {
-            if($category->parent_id == 0) {
+        foreach ($categories as $category) {
+            if ($category->parent_id == 0) {
                 $lists[$category->title] = array();
-            }
-            else {
-                $lists[$categories->where('id',$category->parent_id)->first()->title][$category->id] = $category->title;
+            } else {
+                $lists[$categories->where('id', $category->parent_id)->first()->title][$category->id] = $category->title;
             }
         }
 
@@ -126,8 +121,6 @@ class ArticlesController extends AdminController
         $this->content = view(env('THEME').'.admin.articles_create_content')->with(['categories' =>$lists, 'article' => $article])->render();
 
         return $this->renderOutput();
-
-
     }
     
     
@@ -136,12 +129,11 @@ class ArticlesController extends AdminController
         $article = $this->a_rep->one($alias);
         $result = $this->a_rep->updateArticle($request, $article);
 
-        if(is_array($result) && !empty($result['error'])) {
+        if (is_array($result) && !empty($result['error'])) {
             return back()->with($result);
         }
 
         return redirect('/admin')->with($result);
-
     }
 
 
@@ -150,12 +142,10 @@ class ArticlesController extends AdminController
         $article = $this->a_rep->one($alias);
         $result = $this->a_rep->deleteArticle($article);
 
-        if(is_array($result) && !empty($result['error'])) {
+        if (is_array($result) && !empty($result['error'])) {
             return back()->with($result);
         }
 
         return redirect('/admin')->with($result);
-
-
     }
 }

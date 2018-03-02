@@ -19,7 +19,6 @@ class ChangeArticlesTable extends Migration
 
             $table->integer('category_id')->unsigned()->default(1);
             $table->foreign('category_id')->references('id')->on('categories');
-
         });
     }
 
@@ -31,8 +30,8 @@ class ChangeArticlesTable extends Migration
     public function down()
     {
         Schema::table('articles', function (Blueprint $table) {
-                $table->dropForeign('articles_user_id_foreign');
-                $table->dropForeign('articles_category_id_foreign');
+            $table->dropForeign('articles_user_id_foreign');
+            $table->dropForeign('articles_category_id_foreign');
         });
     }
 }
