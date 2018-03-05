@@ -25,12 +25,13 @@ class ContactsController extends SiteController
     {
         if ($request->isMethod('post')) {
             $messages = [
+                'max' => 'Поле :attribute слишком длинное',
                 'required' => 'Поле :attribute Обязательно к заполнению',
                 'email'    => 'Поле :attribute должно содержать правильный email адрес',
             ];
 
             $this->validate($request, [
-                'name' => 'required|max:255',
+                'name' => 'required|max:15',
                 'email' => 'required|email',
                 'text' => 'required'
             ], $messages);

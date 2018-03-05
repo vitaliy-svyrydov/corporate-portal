@@ -28,7 +28,7 @@
                             <td>
                                 {!! Form::open(['url' => route('admin.users.destroy',['users'=> $user->id]),'class'=>'form-horizontal','method'=>'POST']) !!}
                                 {{ method_field('DELETE') }}
-                                {!! Form::button('Удалить', ['class' => 'btn btn-french-5','type'=>'submit']) !!}
+                                {!! Form::button('Удалить', ['class' => 'btn btn-french-5','type'=>'submit', 'name' => 'user_id_'.$user->id]) !!}
                                 {!! Form::close() !!}
 
                             </td>
