@@ -37,6 +37,7 @@ class UsersController extends AdminController
         if (Gate::denies('EDIT_USERS')) {
             abort(403);
         }
+
         $users = $this->us_rep->get();
 
         $this->content = view(env('THEME').'.admin.users_content')->with(['users'=>$users ])->render();

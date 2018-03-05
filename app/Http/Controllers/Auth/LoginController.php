@@ -6,6 +6,8 @@ use App\Http\Controllers\SiteController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Validation\ValidationException;
+
 
 class LoginController extends SiteController
 {
@@ -50,9 +52,13 @@ class LoginController extends SiteController
 
     public function login(Request $request)
     {
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+        $this->validateLogin($request);
+        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             // Authentication passed...
             return redirect()->intended('/admin');
+        }
+        else{
+            return redirect()->intended('/login');
         }
     }
 }

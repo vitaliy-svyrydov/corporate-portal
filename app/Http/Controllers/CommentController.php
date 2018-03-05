@@ -50,11 +50,14 @@ class CommentController extends SiteController
 
             'article_id' => 'integer|required',
             'parent_id' => 'integer|required',
-            'text' => 'string|required'
+            'text' => 'string|required',
 
         ]);
 
-        $validator->sometimes(['name','email'], 'required|max:255', function ($input) {
+        $validator->sometimes('name', 'required|max:15', function ($input) {
+            return !Auth::check();
+        });
+        $validator->sometimes('email', 'required|email', function ($input) {
             return !Auth::check();
         });
 
@@ -63,11 +66,13 @@ class CommentController extends SiteController
         }
 
         $user = Auth::user();
-
         $comment = new Comment($data);
 
         if ($user) {
             $comment->user_id = $user->id;
+            $comment->name = $user->name;
+            $comment->email = $user->email;
+            $comment->site = (empty($user->site)) ? 'no site' : $user->site;
         }
 
         $post = Article::find($data['article_id']);
@@ -84,7 +89,6 @@ class CommentController extends SiteController
 
         return Response::json(['success' => true, 'comment' => $view_comment,'data' => $data]);
 
-        exit();
     }
 
     /**

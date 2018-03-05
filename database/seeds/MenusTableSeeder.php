@@ -26,17 +26,17 @@ class MenusTableSeeder extends Seeder
         Menu::create([
             'title' => 'Компьютеры',
             'path' => URL::to('articles/cat/computers'),
-            'parent'=> 3,
+            'parent'=> 2,
         ]);
         Menu::create([
             'title' => 'Интересное',
             'path' => URL::to('articles/cat/interesting'),
-            'parent'=> 3,
+            'parent'=> 2,
         ]);
         Menu::create([
             'title' => 'Советы',
             'path' => URL::to('articles/cat/soveti'),
-            'parent'=> 3,
+            'parent'=> 2,
         ]);
         Menu::create([
             'title' => 'Портфолио',
